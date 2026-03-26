@@ -27,27 +27,40 @@ export default function Home() {
   return (
     <div>
       <section className="bg-ink text-paper px-6 py-20 md:py-32">
-        <div className="max-w-3xl mx-auto">
-          <div className="inline-block bg-primary text-white font-mono text-xs px-3 py-1 rounded-full mb-6 tracking-wide uppercase">Now in early access</div>
-          <h1 className="font-serif text-5xl md:text-7xl font-bold leading-tight mb-6">
-            The invite app that actually helps you host.
-          </h1>
-          <p className="text-dim-dark font-mono text-lg md:text-xl mb-10 max-w-xl">
-            Beautiful invites. Clearer RSVPs. A calm Host Brief that tells you who is coming, who is still a maybe, and what to do next.
-          </p>
-          <div className="flex flex-col sm:flex-row gap-4">
-            <Link
-              to="/signup"
-              className="bg-primary text-white font-mono font-medium px-8 py-4 rounded-xl min-h-[44px] flex items-center justify-center text-base hover:bg-primary-dark transition-colors"
-            >
-              Create your first event
-            </Link>
-            <Link
-              to="/login"
-              className="border border-dim-dark text-dim-dark font-mono font-medium px-8 py-4 rounded-xl min-h-[44px] flex items-center justify-center text-base hover:border-paper hover:text-paper transition-colors"
-            >
-              Sign in
-            </Link>
+        <div className="max-w-5xl mx-auto">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+            <div>
+              <div className="inline-block bg-primary text-white font-mono text-xs px-3 py-1 rounded-full mb-6 tracking-wide uppercase">Now in early access</div>
+              <h1 className="font-serif text-5xl md:text-7xl font-bold leading-tight mb-6">
+                The invite app that actually helps you host.
+              </h1>
+              <p className="text-dim-dark font-mono text-lg md:text-xl mb-10 max-w-xl">
+                Beautiful invites. Clearer RSVPs. A calm Host Brief that tells you who is coming, who is still a maybe, and what to do next.
+              </p>
+              <div className="flex flex-col sm:flex-row gap-4">
+                <Link
+                  to="/signup"
+                  className="bg-primary text-white font-mono font-medium px-8 py-4 rounded-xl min-h-[44px] flex items-center justify-center text-base hover:bg-primary-dark transition-colors"
+                >
+                  Create your first event
+                </Link>
+                <Link
+                  to="/login"
+                  className="border border-dim-dark text-dim-dark font-mono font-medium px-8 py-4 rounded-xl min-h-[44px] flex items-center justify-center text-base hover:border-paper hover:text-paper transition-colors"
+                >
+                  Sign in
+                </Link>
+              </div>
+            </div>
+            <div className="relative">
+              <div className="absolute inset-0 rounded-3xl bg-primary opacity-20 blur-2xl scale-105" />
+              <img
+                src="https://images.unsplash.com/photo-1529543544282-ea669407fca3?w=1200&q=80"
+                alt="Two young women laughing and celebrating together at a vibrant party"
+                className="relative rounded-3xl w-full h-80 md:h-[480px] object-cover object-center shadow-2xl"
+              />
+              <div className="absolute inset-0 rounded-3xl ring-1 ring-white/10" />
+            </div>
           </div>
         </div>
       </section>
