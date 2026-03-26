@@ -55,8 +55,8 @@ export default function Home() {
             <div className="relative">
               <div className="absolute inset-0 rounded-3xl bg-primary opacity-20 blur-2xl scale-105" />
               <img
-                src="https://images.unsplash.com/photo-1529543544282-ea669407fca3?w=1200&q=80"
-                alt="Two young women laughing and celebrating together at a vibrant party"
+                src="https://images.unsplash.com/photo-1496337589254-7e19d01cec44?w=1200&q=80"
+                alt="Two beautiful young women in their 20s laughing and having fun together at a party"
                 className="relative rounded-3xl w-full h-80 md:h-[480px] object-cover object-center shadow-2xl"
               />
               <div className="absolute inset-0 rounded-3xl ring-1 ring-white/10" />
