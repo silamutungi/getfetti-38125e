@@ -36,11 +36,11 @@ export default function Home() {
     <div>
       <section className="relative min-h-screen flex items-center overflow-hidden">
         <img
-          src="https://loremflickr.com/cache/resized/65535_54453690031_bb824c34ee_h_1280_720_nofilter.jpg"
+          src="https://loremflickr.com/cache/resized/defaultImage.small_1280_720_nofilter.jpg"
           alt="Friends celebrating together at a lively party"
-          className="absolute inset-0 w-full h-full object-cover object-center"
+          className="absolute inset-0 w-full h-full object-cover object-center rounded-none"
         />
-        <div className="absolute inset-0 bg-gradient-to-br from-black/80 via-black/60 to-black/40" />
+        <div className="absolute inset-0 bg-gradient-to-br from-black/85 via-black/60 to-black/30" />
 
         <div className="relative z-10 max-w-5xl mx-auto px-6 py-32 w-full">
           <div
@@ -85,6 +85,20 @@ export default function Home() {
             visible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
           }`}
         >
+          <div className="mb-16 rounded-3xl overflow-hidden shadow-2xl relative">
+            <img
+              src="https://loremflickr.com/cache/resized/defaultImage.small_1280_720_nofilter.jpg"
+              alt="A joyful gathering of friends"
+              className="w-full h-72 md:h-96 object-cover object-center"
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/10 to-transparent" />
+            <div className="absolute bottom-6 left-8 right-8">
+              <p className="font-serif text-white text-2xl md:text-3xl drop-shadow-lg leading-snug max-w-lg">
+                Every great party deserves a host who isn't stressed about the headcount.
+              </p>
+            </div>
+          </div>
+
           <h2 className="font-serif text-3xl md:text-4xl text-ink mb-4">
             Hosting is hard. Reading the room is harder.
           </h2>
