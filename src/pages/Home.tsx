@@ -55,7 +55,7 @@ export default function Home() {
             <div className="relative">
               <div className="absolute inset-0 rounded-3xl bg-primary opacity-20 blur-2xl scale-105" />
               <img
-                src="https://images.unsplash.com/photo-1543807535-eceef0bc6599?w=1200&q=80"
+                src="https://source.unsplash.com/1600x900/?party,women,friends,new-york,celebration"
                 alt="Young women friends laughing and having fun together at a cool rooftop party in New York City"
                 className="relative rounded-3xl w-full h-80 md:h-[480px] object-cover object-center shadow-2xl"
               />
