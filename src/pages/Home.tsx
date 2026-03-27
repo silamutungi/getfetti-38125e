@@ -1,6 +1,14 @@
+import { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 
 export default function Home() {
+  const [visible, setVisible] = useState(false)
+
+  useEffect(() => {
+    const timer = setTimeout(() => setVisible(true), 80)
+    return () => clearTimeout(timer)
+  }, [])
+
   const features = [
     {
       icon: '📋',
@@ -26,68 +34,92 @@ export default function Home() {
 
   return (
     <div>
-      <section className="bg-ink text-paper px-6 py-20 md:py-32">
-        <div className="max-w-5xl mx-auto">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
-            <div>
-              <div className="inline-block bg-primary text-white font-mono text-xs px-3 py-1 rounded-full mb-6 tracking-wide uppercase">Now in early access</div>
-              <h1 className="font-serif text-5xl md:text-7xl font-bold leading-tight mb-6">
-                The invite app that actually helps you host.
-              </h1>
-              <p className="text-dim-dark font-mono text-lg md:text-xl mb-10 max-w-xl">
-                Beautiful invites. Clearer RSVPs. A calm Host Brief that tells you who is coming, who is still a maybe, and what to do next.
-              </p>
-              <div className="flex flex-col sm:flex-row gap-4">
-                <Link
-                  to="/signup"
-                  className="bg-primary text-white font-mono font-medium px-8 py-4 rounded-xl min-h-[44px] flex items-center justify-center text-base hover:bg-primary-dark transition-colors"
-                >
-                  Create your first event
-                </Link>
-                <Link
-                  to="/login"
-                  className="border border-dim-dark text-dim-dark font-mono font-medium px-8 py-4 rounded-xl min-h-[44px] flex items-center justify-center text-base hover:border-paper hover:text-paper transition-colors"
-                >
-                  Sign in
-                </Link>
+      <section className="relative min-h-screen flex items-center overflow-hidden">
+        <img
+          src="https://loremflickr.com/cache/resized/65535_54453690031_bb824c34ee_h_1280_720_nofilter.jpg"
+          alt="Friends celebrating together at a lively party"
+          className="absolute inset-0 w-full h-full object-cover object-center"
+        />
+        <div className="absolute inset-0 bg-gradient-to-br from-black/80 via-black/60 to-black/40" />
+
+        <div className="relative z-10 max-w-5xl mx-auto px-6 py-32 w-full">
+          <div
+            className={`transition-all duration-700 ${
+              visible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
+            }`}
+          >
+            <div className="inline-block bg-primary text-white font-mono text-xs px-3 py-1 rounded-full mb-6 tracking-wide uppercase shadow-lg">
+              Now in early access
+            </div>
+            <h1 className="font-serif text-5xl md:text-7xl font-bold leading-tight mb-6 text-white max-w-3xl drop-shadow-lg">
+              The invite app that actually helps you host.
+            </h1>
+            <p className="text-white/80 font-mono text-lg md:text-xl mb-10 max-w-xl leading-relaxed drop-shadow">
+              Beautiful invites. Clearer RSVPs. A calm Host Brief that tells you who is coming, who is still a maybe, and what to do next.
+            </p>
+            <div className="flex flex-col sm:flex-row gap-4">
+              <Link
+                to="/signup"
+                className="bg-primary text-white font-mono font-medium px-8 py-4 rounded-xl min-h-[44px] flex items-center justify-center text-base hover:bg-primary-dark transition-all duration-300 active:scale-[0.97] shadow-xl shadow-primary/30"
+              >
+                Create your first event
+              </Link>
+              <Link
+                to="/login"
+                className="border border-white/40 bg-white/10 backdrop-blur-sm text-white font-mono font-medium px-8 py-4 rounded-xl min-h-[44px] flex items-center justify-center text-base hover:bg-white/20 hover:border-white/70 transition-all duration-300 active:scale-[0.97]"
+              >
+                Sign in
+              </Link>
+            </div>
+          </div>
+        </div>
+
+        <div className="absolute bottom-8 left-1/2 -translate-x-1/2 z-10 flex flex-col items-center gap-2">
+          <div className="w-px h-10 bg-gradient-to-b from-white/0 to-white/40 animate-pulse" />
+        </div>
+      </section>
+
+      <section className="px-6 py-20 md:py-32 max-w-5xl mx-auto">
+        <div
+          className={`transition-all duration-700 delay-200 ${
+            visible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
+          }`}
+        >
+          <h2 className="font-serif text-3xl md:text-4xl text-ink mb-4">
+            Hosting is hard. Reading the room is harder.
+          </h2>
+          <p className="text-dim font-mono text-base mb-12 max-w-2xl leading-relaxed">
+            Every other invite tool gives you a dashboard. None gives you confidence. Getfetti turns RSVPs into real answers.
+          </p>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+            {features.map((f, i) => (
+              <div
+                key={f.title}
+                className={`bg-white rounded-2xl p-8 border border-paper shadow-sm hover:shadow-md transition-all duration-500 hover:-translate-y-1 ${
+                  visible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
+                }`}
+                style={{ transitionDelay: `${300 + i * 80}ms` }}
+              >
+                <div className="text-3xl mb-4">{f.icon}</div>
+                <h3 className="font-serif text-xl text-ink mb-2">{f.title}</h3>
+                <p className="text-dim font-mono text-sm leading-relaxed">{f.body}</p>
               </div>
-            </div>
-            <div className="relative">
-              <div className="absolute inset-0 rounded-3xl bg-primary opacity-20 blur-2xl scale-105" />
-              <img
-                src="https://source.unsplash.com/1600x900/?party,women,friends,new-york,celebration"
-                alt="Young women friends laughing and having fun together at a cool rooftop party in New York City"
-                className="relative rounded-3xl w-full h-80 md:h-[480px] object-cover object-center shadow-2xl"
-              />
-              <div className="absolute inset-0 rounded-3xl ring-1 ring-white/10" />
-            </div>
+            ))}
           </div>
         </div>
       </section>
 
-      <section className="px-6 py-20 max-w-5xl mx-auto">
-        <h2 className="font-serif text-3xl md:text-4xl text-ink mb-4">Hosting is hard. Reading the room is harder.</h2>
-        <p className="text-dim font-mono text-base mb-12 max-w-2xl">
-          Every other invite tool gives you a dashboard. None gives you confidence. Getfetti turns RSVPs into real answers.
-        </p>
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-          {features.map((f) => (
-            <div key={f.title} className="bg-white rounded-2xl p-8 border border-paper">
-              <div className="text-3xl mb-4">{f.icon}</div>
-              <h3 className="font-serif text-xl text-ink mb-2">{f.title}</h3>
-              <p className="text-dim font-mono text-sm leading-relaxed">{f.body}</p>
-            </div>
-          ))}
-        </div>
-      </section>
-
-      <section className="bg-ink px-6 py-20">
+      <section className="bg-ink px-6 py-20 md:py-32">
         <div className="max-w-3xl mx-auto text-center">
-          <h2 className="font-serif text-4xl text-paper mb-4">Your next event starts here.</h2>
-          <p className="text-dim-dark font-mono mb-8">Free to start. No credit card. One link to share.</p>
+          <h2 className="font-serif text-4xl md:text-5xl text-paper mb-4 leading-tight">
+            Your next event starts here.
+          </h2>
+          <p className="text-dim-dark font-mono mb-10 text-lg">
+            Free to start. No credit card. One link to share.
+          </p>
           <Link
             to="/signup"
-            className="bg-primary text-white font-mono font-medium px-10 py-4 rounded-xl min-h-[44px] inline-flex items-center justify-center text-base hover:bg-primary-dark transition-colors"
+            className="bg-primary text-white font-mono font-medium px-12 py-4 rounded-xl min-h-[44px] inline-flex items-center justify-center text-base hover:bg-primary-dark transition-all duration-300 active:scale-[0.97] shadow-xl shadow-primary/20"
           >
             Start for free
           </Link>
