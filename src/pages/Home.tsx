@@ -61,13 +61,14 @@ export default function Home() {
     <div>
       <section
         style={{
-          backgroundImage: 'url(https://loremflickr.com/1600/900/party,celebration,confetti)',
+          backgroundImage: 'url(https://loremflickr.com/cache/resized/defaultImage.small_1280_720_nofilter.jpg)',
           backgroundSize: 'cover',
-          backgroundPosition: 'center'
+          backgroundPosition: 'center',
+          backgroundAttachment: 'fixed'
         }}
         className="relative min-h-screen flex items-center overflow-hidden"
       >
-        <div className="absolute inset-0 bg-gradient-to-br from-black/85 via-black/60 to-black/30" />
+        <div className="absolute inset-0 bg-gradient-to-br from-black/85 via-black/55 to-black/25" />
 
         <div className="relative z-10 max-w-5xl mx-auto px-6 py-32 w-full">
           <div
