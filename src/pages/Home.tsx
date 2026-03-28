@@ -1,12 +1,37 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { Link } from 'react-router-dom'
 
 export default function Home() {
   const [visible, setVisible] = useState(false)
+  const featureRefs = useRef<(HTMLDivElement | null)[]>([])
+  const [featureVisible, setFeatureVisible] = useState<boolean[]>([false, false, false, false])
 
   useEffect(() => {
     const timer = setTimeout(() => setVisible(true), 80)
     return () => clearTimeout(timer)
+  }, [])
+
+  useEffect(() => {
+    const observers: IntersectionObserver[] = []
+    featureRefs.current.forEach((ref, i) => {
+      if (!ref) return
+      const obs = new IntersectionObserver(
+        ([entry]) => {
+          if (entry.isIntersecting) {
+            setFeatureVisible(prev => {
+              const next = [...prev]
+              next[i] = true
+              return next
+            })
+            obs.disconnect()
+          }
+        },
+        { threshold: 0.15 }
+      )
+      obs.observe(ref)
+      observers.push(obs)
+    })
+    return () => observers.forEach(o => o.disconnect())
   }, [])
 
   const features = [
@@ -34,12 +59,14 @@ export default function Home() {
 
   return (
     <div>
-      <section className="relative min-h-screen flex items-center overflow-hidden">
-        <img
-          src="https://loremflickr.com/cache/resized/defaultImage.small_1280_720_nofilter.jpg"
-          alt="Friends celebrating together at a lively party"
-          className="absolute inset-0 w-full h-full object-cover object-center rounded-none"
-        />
+      <section
+        style={{
+          backgroundImage: 'url(https://loremflickr.com/1600/900/party,celebration,confetti)',
+          backgroundSize: 'cover',
+          backgroundPosition: 'center'
+        }}
+        className="relative min-h-screen flex items-center overflow-hidden"
+      >
         <div className="absolute inset-0 bg-gradient-to-br from-black/85 via-black/60 to-black/30" />
 
         <div className="relative z-10 max-w-5xl mx-auto px-6 py-32 w-full">
@@ -85,20 +112,6 @@ export default function Home() {
             visible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
           }`}
         >
-          <div className="mb-16 rounded-3xl overflow-hidden shadow-2xl relative">
-            <img
-              src="https://loremflickr.com/cache/resized/defaultImage.small_1280_720_nofilter.jpg"
-              alt="A joyful gathering of friends"
-              className="w-full h-72 md:h-96 object-cover object-center"
-            />
-            <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/10 to-transparent" />
-            <div className="absolute bottom-6 left-8 right-8">
-              <p className="font-serif text-white text-2xl md:text-3xl drop-shadow-lg leading-snug max-w-lg">
-                Every great party deserves a host who isn't stressed about the headcount.
-              </p>
-            </div>
-          </div>
-
           <h2 className="font-serif text-3xl md:text-4xl text-ink mb-4">
             Hosting is hard. Reading the room is harder.
           </h2>
@@ -109,10 +122,11 @@ export default function Home() {
             {features.map((f, i) => (
               <div
                 key={f.title}
+                ref={el => { featureRefs.current[i] = el }}
                 className={`bg-white rounded-2xl p-8 border border-paper shadow-sm hover:shadow-md transition-all duration-500 hover:-translate-y-1 ${
-                  visible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
+                  featureVisible[i] ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
                 }`}
-                style={{ transitionDelay: `${300 + i * 80}ms` }}
+                style={{ transitionDelay: `${i * 80}ms` }}
               >
                 <div className="text-3xl mb-4">{f.icon}</div>
                 <h3 className="font-serif text-xl text-ink mb-2">{f.title}</h3>
