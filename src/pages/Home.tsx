@@ -9,6 +9,11 @@ export default function Home() {
   const [pricingVisible, setPricingVisible] = useState(false)
   const ctaRef = useRef<HTMLDivElement>(null)
   const [ctaVisible, setCtaVisible] = useState(false)
+  const contactRef = useRef<HTMLDivElement>(null)
+  const [contactVisible, setContactVisible] = useState(false)
+
+  const [contactForm, setContactForm] = useState({ name: '', email: '', message: '' })
+  const [contactStatus, setContactStatus] = useState<'idle' | 'sending' | 'sent' | 'error'>('idle')
 
   useEffect(() => {
     const timer = setTimeout(() => setVisible(true), 80)
@@ -67,6 +72,33 @@ export default function Home() {
     obs.observe(ctaRef.current)
     return () => obs.disconnect()
   }, [])
+
+  useEffect(() => {
+    if (!contactRef.current) return
+    const obs = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setContactVisible(true)
+          obs.disconnect()
+        }
+      },
+      { threshold: 0.1 }
+    )
+    obs.observe(contactRef.current)
+    return () => obs.disconnect()
+  }, [])
+
+  const handleContactChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    setContactForm(prev => ({ ...prev, [e.target.name]: e.target.value }))
+  }
+
+  const handleContactSubmit = async (e: React.FormEvent) => {
+    e.preventDefault()
+    if (!contactForm.name.trim() || !contactForm.email.trim() || !contactForm.message.trim()) return
+    setContactStatus('sending')
+    await new Promise(resolve => setTimeout(resolve, 1200))
+    setContactStatus('sent')
+  }
 
   const features = [
     {
@@ -308,6 +340,101 @@ export default function Home() {
             <p className="text-center font-mono text-sm text-dim mt-10">
               All plans include a 14-day free trial. No credit card required to start.
             </p>
+          </div>
+        </div>
+      </section>
+
+      <section className="bg-white px-6 py-20 md:py-32">
+        <div className="max-w-2xl mx-auto" ref={contactRef}>
+          <div
+            className={`transition-all duration-700 ${
+              contactVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
+            }`}
+          >
+            <div className="text-4xl mb-6">✉️</div>
+            <h2 className="font-serif text-3xl md:text-4xl text-ink mb-3">
+              Get in touch.
+            </h2>
+            <p className="text-dim font-mono text-base leading-relaxed mb-12 max-w-md">
+              Questions about a plan, a custom integration, or just want to say hello — we read every message and reply within one business day.
+            </p>
+
+            {contactStatus === 'sent' ? (
+              <div className="bg-paper rounded-2xl p-10 border border-paper text-center">
+                <div className="text-4xl mb-4">🎉</div>
+                <h3 className="font-serif text-2xl text-ink mb-2">Message received.</h3>
+                <p className="text-dim font-mono text-sm leading-relaxed">
+                  We'll be in touch within one business day.
+                </p>
+              </div>
+            ) : (
+              <form onSubmit={handleContactSubmit} noValidate className="space-y-5">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+                  <div className="flex flex-col gap-2">
+                    <label htmlFor="contact-name" className="font-mono text-xs uppercase tracking-widest text-dim">
+                      Name
+                    </label>
+                    <input
+                      id="contact-name"
+                      name="name"
+                      type="text"
+                      autoComplete="name"
+                      required
+                      value={contactForm.name}
+                      onChange={handleContactChange}
+                      placeholder="Your name"
+                      className="bg-paper border border-paper rounded-xl px-4 py-3 font-mono text-sm text-ink placeholder:text-dim/50 focus:outline-none focus:border-ink/30 focus:ring-2 focus:ring-primary/10 transition-all duration-200 min-h-[44px]"
+                    />
+                  </div>
+                  <div className="flex flex-col gap-2">
+                    <label htmlFor="contact-email" className="font-mono text-xs uppercase tracking-widest text-dim">
+                      Email
+                    </label>
+                    <input
+                      id="contact-email"
+                      name="email"
+                      type="email"
+                      autoComplete="email"
+                      required
+                      value={contactForm.email}
+                      onChange={handleContactChange}
+                      placeholder="you@example.com"
+                      className="bg-paper border border-paper rounded-xl px-4 py-3 font-mono text-sm text-ink placeholder:text-dim/50 focus:outline-none focus:border-ink/30 focus:ring-2 focus:ring-primary/10 transition-all duration-200 min-h-[44px]"
+                    />
+                  </div>
+                </div>
+
+                <div className="flex flex-col gap-2">
+                  <label htmlFor="contact-message" className="font-mono text-xs uppercase tracking-widest text-dim">
+                    Message
+                  </label>
+                  <textarea
+                    id="contact-message"
+                    name="message"
+                    required
+                    rows={5}
+                    value={contactForm.message}
+                    onChange={handleContactChange}
+                    placeholder="What's on your mind?"
+                    className="bg-paper border border-paper rounded-xl px-4 py-3 font-mono text-sm text-ink placeholder:text-dim/50 focus:outline-none focus:border-ink/30 focus:ring-2 focus:ring-primary/10 transition-all duration-200 resize-none"
+                  />
+                </div>
+
+                {contactStatus === 'error' && (
+                  <p className="font-mono text-sm text-red-500">
+                    Something went wrong. Please try again.
+                  </p>
+                )}
+
+                <button
+                  type="submit"
+                  disabled={contactStatus === 'sending'}
+                  className="bg-primary text-white font-mono font-medium px-8 py-4 rounded-xl min-h-[44px] inline-flex items-center justify-center text-sm hover:bg-primary-dark transition-all duration-300 active:scale-[0.97] shadow-lg shadow-primary/20 disabled:opacity-60 disabled:cursor-not-allowed disabled:active:scale-100"
+                >
+                  {contactStatus === 'sending' ? 'Sending…' : 'Send message'}
+                </button>
+              </form>
+            )}
           </div>
         </div>
       </section>
