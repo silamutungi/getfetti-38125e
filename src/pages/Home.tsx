@@ -7,6 +7,8 @@ export default function Home() {
   const [featureVisible, setFeatureVisible] = useState<boolean[]>([false, false, false, false])
   const pricingRef = useRef<HTMLDivElement>(null)
   const [pricingVisible, setPricingVisible] = useState(false)
+  const ctaRef = useRef<HTMLDivElement>(null)
+  const [ctaVisible, setCtaVisible] = useState(false)
 
   useEffect(() => {
     const timer = setTimeout(() => setVisible(true), 80)
@@ -48,6 +50,21 @@ export default function Home() {
       { threshold: 0.1 }
     )
     obs.observe(pricingRef.current)
+    return () => obs.disconnect()
+  }, [])
+
+  useEffect(() => {
+    if (!ctaRef.current) return
+    const obs = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setCtaVisible(true)
+          obs.disconnect()
+        }
+      },
+      { threshold: 0.1 }
+    )
+    obs.observe(ctaRef.current)
     return () => obs.disconnect()
   }, [])
 
@@ -214,16 +231,23 @@ export default function Home() {
               pricingVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
             }`}
           >
-            <div className="mb-14">
+            <div className="mb-4">
               <h2 className="font-serif text-3xl md:text-4xl text-ink mb-4">
                 Simple pricing. No surprises.
               </h2>
-              <p className="text-dim font-mono text-base max-w-xl leading-relaxed">
+              <p className="text-dim font-mono text-base max-w-xl leading-relaxed mb-2">
                 Start free. Upgrade when hosting becomes a regular part of your life.
               </p>
+              <Link
+                to="/pricing"
+                className="inline-flex items-center gap-1.5 font-mono text-sm text-primary hover:text-primary-dark transition-colors duration-200"
+              >
+                See full plan details
+                <span className="text-xs">→</span>
+              </Link>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 items-start">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 items-start mt-14">
               {plans.map((plan, i) => (
                 <div
                   key={plan.name}
@@ -259,7 +283,7 @@ export default function Home() {
                   <ul className="space-y-3 mb-8">
                     {plan.features.map(feature => (
                       <li key={feature} className="flex items-start gap-3">
-                        <span className={`mt-0.5 text-sm flex-shrink-0 ${plan.highlight ? 'text-primary' : 'text-primary'}`}>✓</span>
+                        <span className="mt-0.5 text-sm flex-shrink-0 text-primary">✓</span>
                         <span className={`font-mono text-sm leading-relaxed ${plan.highlight ? 'text-white/80' : 'text-dim'}`}>
                           {feature}
                         </span>
@@ -289,19 +313,25 @@ export default function Home() {
       </section>
 
       <section className="bg-ink px-6 py-20 md:py-32">
-        <div className="max-w-3xl mx-auto text-center">
-          <h2 className="font-serif text-4xl md:text-5xl text-paper mb-4 leading-tight">
-            Your next event starts here.
-          </h2>
-          <p className="text-dim-dark font-mono mb-10 text-lg">
-            Free to start. No credit card. One link to share.
-          </p>
-          <Link
-            to="/signup"
-            className="bg-primary text-white font-mono font-medium px-12 py-4 rounded-xl min-h-[44px] inline-flex items-center justify-center text-base hover:bg-primary-dark transition-all duration-300 active:scale-[0.97] shadow-xl shadow-primary/20"
+        <div className="max-w-3xl mx-auto text-center" ref={ctaRef}>
+          <div
+            className={`transition-all duration-700 ${
+              ctaVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
+            }`}
           >
-            Start for free
-          </Link>
+            <h2 className="font-serif text-4xl md:text-5xl text-paper mb-4 leading-tight">
+              Your next event starts here.
+            </h2>
+            <p className="text-dim-dark font-mono mb-10 text-lg">
+              Free to start. No credit card. One link to share.
+            </p>
+            <Link
+              to="/signup"
+              className="bg-primary text-white font-mono font-medium px-12 py-4 rounded-xl min-h-[44px] inline-flex items-center justify-center text-base hover:bg-primary-dark transition-all duration-300 active:scale-[0.97] shadow-xl shadow-primary/20"
+            >
+              Start for free
+            </Link>
+          </div>
         </div>
       </section>
     </div>
