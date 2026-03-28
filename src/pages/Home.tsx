@@ -61,10 +61,9 @@ export default function Home() {
     <div>
       <section
         style={{
-          backgroundImage: 'url(https://loremflickr.com/cache/resized/defaultImage.small_1280_720_nofilter.jpg)',
+          backgroundImage: 'url(https://loremflickr.com/1600/900/party,celebration,confetti)',
           backgroundSize: 'cover',
-          backgroundPosition: 'center',
-          backgroundAttachment: 'fixed'
+          backgroundPosition: 'center'
         }}
         className="relative min-h-screen flex items-center overflow-hidden"
       >
