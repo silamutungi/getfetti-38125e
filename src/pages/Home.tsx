@@ -78,7 +78,7 @@ export default function Home() {
             <div className="inline-block bg-primary text-white font-mono text-xs px-3 py-1 rounded-full mb-6 tracking-wide uppercase shadow-lg">
               Now in early access
             </div>
-            <h1 className="font-serif text-5xl md:text-7xl font-bold leading-tight mb-6 text-white max-w-3xl drop-shadow-lg">
+            <h1 className="font-serif text-6xl md:text-8xl font-bold leading-tight mb-6 text-white max-w-3xl drop-shadow-lg">
               The invite app that actually helps you host.
             </h1>
             <p className="text-white/80 font-mono text-lg md:text-xl mb-10 max-w-xl leading-relaxed drop-shadow">
